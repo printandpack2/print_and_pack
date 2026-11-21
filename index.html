@@ -6,6 +6,7 @@
 <title>Print and Pack | طباعة وتغليف وأفكار هدايا</title>
 <meta name="description" content="كل خدمات الطباعة ومستلزمات التغليف، وتنفيذ أفكار الهدايا بالتصميم الذي تريده. اطلب مباشرة عبر واتساب.">
 <meta name="theme-color" content="#0F1B4C">
+<meta name="color-scheme" content="light">
 <link rel="icon" href="images/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,12 +41,15 @@ button{font-family:inherit}
 .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
 
 /* ---------- Header ---------- */
-.top{
-  position:sticky;top:0;z-index:30;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line);
+.top{background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);z-index:30}
+.top .wrap{
+  display:grid;align-items:center;gap:10px 18px;padding-block:11px;
+  grid-template-columns:auto 1fr auto;grid-template-areas:"brand search link";
 }
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.top .brand{grid-area:brand}
+.top .search{grid-area:search;justify-self:center;width:100%;max-width:460px}
+.top .top-link{grid-area:link}
+@media (min-width:761px){.top{position:sticky;top:0;backdrop-filter:blur(8px)}}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:46px;width:auto;border-radius:10px;display:block}
 .brand b{
@@ -296,9 +300,58 @@ footer .brand b i{color:var(--sun)}
   color:var(--ink-soft);font-size:.88rem;text-decoration:underline;
 }
 
+/* ---------- Search ---------- */
+:root{color-scheme:light}
+.search{position:relative}
+.search>svg{
+  position:absolute;inset-inline-start:15px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;stroke:var(--ink-soft);fill:none;stroke-width:2.2;stroke-linecap:round;pointer-events:none;
+}
+.search input{
+  width:100%;height:44px;-webkit-appearance:none;appearance:none;
+  border:1.5px solid var(--line);border-radius:999px;background:#fff;
+  color:var(--ink);-webkit-text-fill-color:var(--ink);caret-color:var(--violet);
+  font:inherit;font-size:16px;padding-inline:44px 42px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search input::placeholder{color:#7E85A6;opacity:1;-webkit-text-fill-color:#7E85A6}
+.search input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-soft)}
+.search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.search .clr{
+  position:absolute;inset-inline-end:7px;top:50%;transform:translateY(-50%);
+  width:30px;height:30px;border:0;border-radius:50%;background:var(--violet-soft);
+  color:var(--ink);cursor:pointer;font-size:1.1rem;line-height:1;
+}
+.notice{
+  background:var(--violet-soft);border-radius:var(--radius);padding:18px 22px;margin-bottom:30px;
+  display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;
+}
+.notice p{font-weight:700;line-height:1.7}
+.notice a{font-weight:700;color:var(--violet);text-decoration:underline}
+
+/* ---------- Image gallery ---------- */
+.slides{height:100%;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;height:100%;scroll-snap-align:center;position:relative;background:var(--violet-soft)}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-select:none;user-select:none}
+.slide.noimg::after{
+  content:"P";position:absolute;inset:0;display:grid;place-items:center;
+  font:900 4.5rem Arial,sans-serif;color:var(--violet);opacity:.35;
+}
+.gnav{
+  position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;
+  background:rgba(255,255,255,.9);color:var(--ink);cursor:pointer;display:grid;place-items:center;
+  box-shadow:0 4px 12px -4px rgba(15,27,76,.5);
+}
+.gnav.prev{left:8px}.gnav.next{right:8px}
+.gnav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;pointer-events:none;direction:ltr}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.75);box-shadow:0 0 0 1px rgba(15,27,76,.25)}
+.dots i.on{background:var(--ink);box-shadow:0 0 0 1.5px #fff}
+
 /* ---------- Responsive ---------- */
 @media (max-width:760px){
-  .top .wrap{height:62px}
+  .top .wrap{grid-template-columns:1fr auto;grid-template-areas:"brand link" "search search"}
   .brand img{height:40px}
   .brand b{font-size:1rem}
   .hero{padding:64px 0 84px}
@@ -336,6 +389,11 @@ footer .brand b i{color:var(--sun)}
       <img src="images/logo-mark.png" alt="" onerror="this.remove()">
       <b>PRINT <i>&amp;</i> PACK</b>
     </a>
+    <form class="search" role="search" onsubmit="return false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="search" id="q" placeholder="ابحث عن منتج…" autocomplete="off" enterkeyhint="search" aria-label="ابحث عن منتج">
+      <button class="clr" id="qClear" type="button" hidden aria-label="مسح البحث">×</button>
+    </form>
     <a class="top-link" href="#products">المنتجات</a>
   </div>
 </header>
@@ -414,6 +472,24 @@ footer .brand b i{color:var(--sun)}
   </section>
 </div>
 
+<!-- ============ نتائج البحث ============ -->
+<div id="view-search" hidden>
+  <section class="cat-view">
+    <div class="wrap">
+      <a class="back" href="#products">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        كل التصنيفات
+      </a>
+      <div class="section-head">
+        <h2 id="sTitle"></h2>
+        <p id="sCount"></p>
+      </div>
+      <div class="notice" id="sNotice" hidden><p id="sMsg"></p><a id="sWa" href="#" target="_blank" rel="noopener">اسألنا عنه على واتساب</a></div>
+      <div class="grid" id="sGrid"></div>
+    </div>
+  </section>
+</div>
+
 <section class="custom">
   <div class="wrap">
     <div class="custom-box">
@@ -471,8 +547,8 @@ const CONFIG = {
   // رقم واتساب مع رمز الدولة بدون + أو أصفار
   whatsapp: "963996712830",
 
-  // رابط Google Sheet بعد نشره كـ CSV
-  sheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYQbBRHmHJSDctWCZM_g-SkFuLbrhlM8I-2e4KLsg4R9GYjNB_3G0MWeTVBN5U7rqQY1kSK54HPqDI/pub?gid=0&single=true&output=csv",
+  // رابط Google Apps Script (Web App) المنتهي بـ /exec
+  apiUrl: "",
 
   // مجلد الصور في المستودع
   imagesFolder: "images/",
@@ -483,11 +559,11 @@ const CONFIG = {
 
 /* قائمة احتياطية: تظهر إذا كان رابط الشيت فارغًا أو تعذّر تحميله */
 const FALLBACK = [
-  {name:"دفتر تلوين", price:"250 ل.س.ج", description:"دفتر تلوين اسود وابيض، برسومات مميزة (يمكنك اختيار الرسومات على ذوقك)", image:"coloring-book.jpeg", category:"دفاتر وجداول", subcategory:""},
-  {name:"بورد تودو ليست", price:"250 ل.س.ج", description:"بورد تودو ليست لتنظيم المهام اليومية، مع قسم خاص للملاحظات والتذكيرات المهمة، مغلف حراريًا لحمايته من التلف، وإمكانية استخدامه اكثر من مرة", image:"todolist.jpeg", category:"دفاتر وجداول", subcategory:""},
-  {name:"كيس كرتون ابيض", price:"180 ل.س.ج", description:"كيس كرتون ابيض للهدايا، قياس 40*30", image:"whitebag.jpeg", category:"أكياس هدايا", subcategory:""},
-  {name:"جدول دراسي", price:"250 ل.س.ج", description:"جدول دراسي لتنظيم اوقات الدوام والدروس، مغلف حراريًا لحمايته من التلف، وإمكانية اعادة استخدامه اكثر من مرة", image:"schoolprogramboard.jpeg", category:"دفاتر وجداول", subcategory:""},
-  {name:"كيس كرافت A4", price:"120 ل.س.ج", description:"كيس كرافت بني قياس A4", image:"a4bag.jpeg", category:"أكياس هدايا", subcategory:""}
+  {name:"دفتر تلوين", price:"250 ل.س.ج", description:"دفتر تلوين اسود وابيض، برسومات مميزة (يمكنك اختيار الرسومات على ذوقك)", images:["coloring-book.jpeg"], category:"دفاتر وجداول", subcategory:""},
+  {name:"بورد تودو ليست", price:"250 ل.س.ج", description:"بورد تودو ليست لتنظيم المهام اليومية، مع قسم خاص للملاحظات والتذكيرات المهمة، مغلف حراريًا لحمايته من التلف، وإمكانية استخدامه اكثر من مرة", images:["todolist.jpeg"], category:"دفاتر وجداول", subcategory:""},
+  {name:"كيس كرتون ابيض", price:"180 ل.س.ج", description:"كيس كرتون ابيض للهدايا، قياس 40*30", images:["whitebag.jpeg"], category:"أكياس هدايا", subcategory:""},
+  {name:"جدول دراسي", price:"250 ل.س.ج", description:"جدول دراسي لتنظيم اوقات الدوام والدروس، مغلف حراريًا لحمايته من التلف، وإمكانية اعادة استخدامه اكثر من مرة", images:["schoolprogramboard.jpeg"], category:"دفاتر وجداول", subcategory:""},
+  {name:"كيس كرافت A4", price:"120 ل.س.ج", description:"كيس كرافت بني قياس A4", images:["a4bag.jpeg"], category:"أكياس هدايا", subcategory:""}
 ];
 
 /* =========================================================
@@ -523,82 +599,89 @@ document.querySelectorAll('[data-wa="custom"]').forEach(a=>{
   a.href = waLink("مرحبًا Print and Pack، لدي طلب خاص وأريد الاستفسار عنه.");
 });
 
-const imgSrc = v => !v ? "" : /^https?:\/\//i.test(v) ? v : CONFIG.imagesFolder + encodeURI(v);
+/* صور Drive تُطلب بالحجم المناسب؛ والأسماء البسيطة تُقرأ من مجلد images */
+function imgSrc(v, w){
+  if(!v) return "";
+  if(/^https?:\/\//i.test(v)){
+    return (w && /googleusercontent\.com\/d\//.test(v)) ? v.replace(/=w\d+.*$/,"") + "=w" + w : v;
+  }
+  return CONFIG.imagesFolder + encodeURI(v);
+}
 function countLabel(n){
   return n===1 ? "منتج واحد" : n===2 ? "منتجان" : n<=10 ? n+" منتجات" : n+" منتجًا";
 }
 
 /* =========================================================
-   قراءة الشيت
+   البيانات والتصنيفات
    ========================================================= */
-function parseCSV(text){
-  const rows=[]; let row=[], cell="", q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(q){
-      if(c==='"'){ if(text[i+1]==='"'){cell+='"';i++} else q=false }
-      else cell+=c;
-    }else if(c==='"') q=true;
-    else if(c===','){ row.push(cell); cell=""; }
-    else if(c==='\n'||c==='\r'){
-      if(c==='\r'&&text[i+1]==='\n') i++;
-      row.push(cell); cell="";
-      if(row.some(v=>v.trim()!=="")) rows.push(row);
-      row=[];
-    }else cell+=c;
-  }
-  row.push(cell);
-  if(row.some(v=>v.trim()!=="")) rows.push(row);
-  return rows;
+/* "ستيكرز: اعمال| شخصية" ← تصنيف وتصنيفاته الفرعية، وسطر بلا نقطتين ← تصنيف بلا فروع */
+function parseCategories(text){
+  const out=[];
+  String(text||"").split(/\r?\n/).forEach(line=>{
+    line = clean(line); if(!line) return;
+    const m = line.match(/^([^:：]+)[:：](.*)$/);
+    const name = clean(m ? m[1] : line);
+    const subs = m ? m[2].split("|").map(clean).filter(Boolean) : [];
+    if(name) out.push({name, subs});
+  });
+  return out;
 }
-function rowsToProducts(rows){
-  const head = rows[0].map(h=>h.replace(/^\uFEFF/,"").trim().toLowerCase());
-  const idx = k => head.indexOf(k);
-  const get = (r,k) => { const i = idx(k); return i<0 ? "" : (r[i]||""); };
-  return rows.slice(1).map(r=>({
-    name: clean(get(r,"name")),
-    price: clean(get(r,"price")),
-    description: clean(get(r,"description")),
-    image: clean(get(r,"image")),
-    category: clean(get(r,"category")),
-    subcategory: clean(get(r,"subcategory"))
-  })).filter(p=>p.name);
+function normProduct(p){
+  let imgs = p.images !== undefined ? p.images : (p.image !== undefined ? p.image : []);
+  if(typeof imgs === "string") imgs = imgs.split("|");
+  imgs = (imgs||[]).map(clean).filter(Boolean);
+  return {
+    id: p.id ? String(p.id) : "",
+    name: clean(p.name), price: clean(p.price), description: clean(p.description),
+    images: imgs, category: clean(p.category), subcategory: clean(p.subcategory)
+  };
 }
-
-/* =========================================================
-   بناء التصنيفات (مع تجاهل الأخطاء الإملائية البسيطة)
-   ========================================================= */
 function bump(map, name){ map.set(name,(map.get(name)||0)+1); }
 function bestName(map){
   let best="", n=0;
   map.forEach((c,name)=>{ if(c>n){ n=c; best=name; } });
   return best;
 }
-function buildCatalog(products){
+/* يبني التصنيفات من قائمة المنتجات + إعداد التصنيفات (للترتيب والأسماء الصحيحة) */
+function buildCatalog(products, cfgText){
   const cats = new Map();
+  const ensure = name => {
+    const k = normKey(name);
+    let c = cats.get(k);
+    if(!c){ c = {key:k, names:new Map(), pinned:"", subs:new Map(), items:[]}; cats.set(k,c); }
+    return c;
+  };
+  parseCategories(cfgText).forEach(cf=>{
+    const c = ensure(cf.name); c.pinned = c.pinned || cf.name;
+    cf.subs.forEach(sn=>{
+      const sk = normKey(sn);
+      if(!c.subs.has(sk)) c.subs.set(sk,{key:sk, names:new Map(), pinned:sn});
+    });
+  });
   products.forEach(p=>{
-    const cName = clean(p.category) || "منتجات أخرى";
-    const ck = normKey(cName);
-    let c = cats.get(ck);
-    if(!c){ c = {key:ck, names:new Map(), subs:new Map(), items:[]}; cats.set(ck,c); }
-    bump(c.names, cName);
-
-    const sName = clean(p.subcategory);
+    const c = ensure(clean(p.category) || "منتجات أخرى");
+    bump(c.names, clean(p.category) || "منتجات أخرى");
     let sk = "";
+    const sName = clean(p.subcategory);
     if(sName){
       sk = normKey(sName);
-      let s = c.subs.get(sk);
-      if(!s){ s = {key:sk, names:new Map()}; c.subs.set(sk,s); }
-      bump(s.names, sName);
+      let sub = c.subs.get(sk);
+      if(!sub){ sub = {key:sk, names:new Map(), pinned:""}; c.subs.set(sk,sub); }
+      bump(sub.names, sName);
     }
-    c.items.push({...p, id:normKey(p.name), subKey:sk});
+    c.items.push({...p, id: p.id || normKey(p.name), subKey: sk});
   });
-  return [...cats.values()].map(c=>({
-    key:c.key,
-    name:bestName(c.names),
-    subs:[...c.subs.values()].map(s=>({key:s.key, name:bestName(s.names)})),
-    items:c.items
-  }));
+  return [...cats.values()].filter(c=>c.items.length).map(c=>{
+    const name = c.pinned || bestName(c.names);
+    const used = new Set(c.items.map(p=>p.subKey).filter(Boolean));
+    const subs = [...c.subs.values()].filter(sb=>used.has(sb.key))
+      .map(sb=>({key:sb.key, name: sb.pinned || bestName(sb.names)}));
+    const subName = new Map(subs.map(sb=>[sb.key, sb.name]));
+    return {
+      key:c.key, name, subs,
+      items: c.items.map(p=>({...p, catName:name, subName: subName.get(p.subKey)||""}))
+    };
+  });
 }
 
 /* =========================================================
@@ -752,18 +835,47 @@ $("clearBtn").onclick = ()=>{ cart=[]; saveCart(); renderCart(); };
 /* =========================================================
    عرض المنتجات
    ========================================================= */
+function gallery(p){
+  const imgs = p.images || [];
+  const thumb = el("div","thumb");
+  if(!imgs.length){ thumb.classList.add("noimg"); return thumb; }
+  const track = el("div","slides");
+  track.setAttribute("dir","ltr");
+  imgs.forEach((u,i)=>{
+    const sl = el("div","slide");
+    const img = new Image();
+    img.alt = imgs.length>1 ? `${p.name} (${i+1}/${imgs.length})` : p.name;
+    img.loading = "lazy"; img.decoding = "async"; img.draggable = false;
+    img.onerror = ()=>{ img.remove(); sl.classList.add("noimg"); };
+    img.src = imgSrc(u, 800);
+    sl.appendChild(img); track.appendChild(sl);
+  });
+  thumb.appendChild(track);
+  if(imgs.length>1){
+    const mk = (cls,label,path)=>{
+      const b = el("button","gnav "+cls); b.type="button"; b.setAttribute("aria-label",label);
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+path+'"/></svg>';
+      return b;
+    };
+    const prev = mk("prev","الصورة السابقة","M15 6l-6 6 6 6");
+    const next = mk("next","الصورة التالية","M9 6l6 6-6 6");
+    const dots = el("div","dots");
+    imgs.forEach(()=>dots.appendChild(document.createElement("i")));
+    const cur = ()=>Math.round(track.scrollLeft/track.clientWidth);
+    const upd = ()=>{ const i = cur(); [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===i)); };
+    prev.onclick = ()=>{ const i = cur(); track.scrollTo({left:(i<=0 ? imgs.length-1 : i-1)*track.clientWidth, behavior:"smooth"}); };
+    next.onclick = ()=>{ const i = cur(); track.scrollTo({left:(i>=imgs.length-1 ? 0 : i+1)*track.clientWidth, behavior:"smooth"}); };
+    track.addEventListener("scroll", upd, {passive:true});
+    upd();
+    thumb.append(prev,next,dots);
+  }
+  return thumb;
+}
+
 function productCard(p){
   const card = el("article","card");
 
-  const thumb = el("div","thumb");
-  const src = imgSrc(p.image);
-  if(src){
-    const img = new Image();
-    img.alt = p.name; img.loading = "lazy"; img.decoding = "async";
-    img.onerror = ()=>{ img.remove(); thumb.classList.add("noimg"); };
-    img.src = src;
-    thumb.appendChild(img);
-  }else thumb.classList.add("noimg");
+  const thumb = gallery(p);
 
   const body = el("div","card-body");
   body.append(el("h3",null,p.name), el("p","desc",p.description));
@@ -821,12 +933,12 @@ function categoryCard(cat){
   const a = el("a","cat-card");
   a.href = "#cat/" + encodeURIComponent(cat.key);
   const box = el("div","cat-img");
-  const first = cat.items.find(p=>p.image);
+  const first = cat.items.find(p=>p.images && p.images.length);
   if(first){
     const img = new Image();
     img.alt = ""; img.loading = "lazy"; img.decoding = "async";
     img.onerror = ()=>{ img.remove(); box.classList.add("noimg"); };
-    img.src = imgSrc(first.image);
+    img.src = imgSrc(first.images[0], 600);
     box.appendChild(img);
   }else box.classList.add("noimg");
   const info = el("div","cat-info");
@@ -840,11 +952,12 @@ function categoryCard(cat){
    ========================================================= */
 let catalog = [];
 let currentView = "home";
+let searchQ = "";
 
 function showHome(){
-  const fromCat = currentView === "cat";
+  const fromCat = currentView !== "home";
   currentView = "home";
-  $("view-cat").hidden = true; $("view-home").hidden = false;
+  $("view-cat").hidden = true; $("view-search").hidden = true; $("view-home").hidden = false;
 
   const grid = $("catGrid");
   grid.replaceChildren();
@@ -868,7 +981,7 @@ function showHome(){
 
 function showCategory(cat){
   currentView = "cat";
-  $("view-home").hidden = true; $("view-cat").hidden = false;
+  $("view-home").hidden = true; $("view-search").hidden = true; $("view-cat").hidden = false;
   $("catTitle").textContent = cat.name;
   $("catCount").textContent = countLabel(cat.items.length);
   mountProducts(cat, $("catChips"), $("catProducts"));
@@ -877,6 +990,7 @@ function showCategory(cat){
 }
 
 function route(){
+  if(searchQ){ showSearch(); return; }
   const h = location.hash;
   document.title = "Print and Pack | طباعة وتغليف وأفكار هدايا";
   if(h.startsWith("#cat/")){
@@ -887,26 +1001,130 @@ function route(){
   }
   showHome();
 }
-window.addEventListener("hashchange", route);
+window.addEventListener("hashchange", ()=>{ if(searchQ) clearSearch(true); route(); });
+
+/* =========================================================
+   البحث (يتحمّل الأخطاء الإملائية البسيطة)
+   ========================================================= */
+function lev(a,b){
+  if(a===b) return 0;
+  const m=a.length, n=b.length;
+  if(!m) return n; if(!n) return m;
+  let prev = Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+const stem = w => w.replace(/^(وال|بال|كال|فال|لل|ال)(?=.{2})/,"");
+const tokens = s => normKey(s).split(/[^\p{L}\p{N}]+/u).filter(Boolean).map(stem).filter(Boolean);
+function sim(a,b){
+  if(a===b) return 1;
+  if(a.length>=2 && b.includes(a)) return b.startsWith(a) ? .95 : .88;
+  return 1 - lev(a,b)/Math.max(a.length,b.length);
+}
+const HIT = .75;
+function bestSim(qt, list){
+  let m = 0;
+  for(const w of list){ const v = sim(qt,w); if(v>m) m=v; }
+  return m;
+}
+function scoreProduct(qts, p){
+  if(!p._tk) p._tk = {
+    name: tokens(p.name),
+    cat: tokens(p.catName+" "+(p.subName||"")),
+    desc: tokens(p.description)
+  };
+  let sum=0, hits=0;
+  qts.forEach(qt=>{
+    const n = bestSim(qt,p._tk.name), c = bestSim(qt,p._tk.cat), d = bestSim(qt,p._tk.desc);
+    if(Math.max(n,c,d) >= HIT) hits++;
+    sum += Math.max(n, c*.85, d*.6);
+  });
+  return {p, score:sum/qts.length, hits};
+}
+function search(q){
+  const qts = tokens(q);
+  if(!qts.length) return {full:[], close:[], best:0};
+  const all = [];
+  catalog.forEach(c=>c.items.forEach(p=>all.push(scoreProduct(qts,p))));
+  all.sort((x,y)=>y.score-x.score);
+  const full = all.filter(r=>r.hits===qts.length);
+  return {full:full.map(r=>r.p), close:all.slice(0,4).map(r=>r.p), best: all.length?all[0].score:0};
+}
+
+function showSearch(){
+  currentView = "search";
+  $("view-home").hidden = true; $("view-cat").hidden = true; $("view-search").hidden = false;
+  const q = searchQ;
+  const res = search(q);
+  const grid = $("sGrid"); grid.replaceChildren();
+  const notice = $("sNotice");
+  $("sTitle").textContent = "نتائج البحث عن «" + q + "»";
+  $("sWa").href = waLink("مرحبًا Print and Pack، أبحث عن: " + q);
+  let list;
+  if(res.full.length){
+    list = res.full; notice.hidden = true;
+    $("sCount").textContent = countLabel(list.length);
+  }else{
+    list = res.close; notice.hidden = false;
+    $("sCount").textContent = "";
+    $("sMsg").textContent = res.best >= .4
+      ? "لم نجد «" + q + "» بالضبط. هذه أقرب النتائج إلى طلبك:"
+      : "لم نجد ما يشبه «" + q + "». يمكنك أن تسألنا عنه مباشرة، وهذه بعض منتجاتنا:";
+  }
+  if(!list.length) grid.appendChild(el("p","state","لا توجد منتجات حاليًا."));
+  list.forEach(p=>grid.appendChild(productCard(p)));
+  document.title = "بحث: " + q + " | Print and Pack";
+  window.scrollTo(0,0);
+}
+function clearSearch(silent){
+  searchQ = ""; $("q").value = ""; $("qClear").hidden = true;
+  if(!silent) route();
+}
+let searchTimer;
+$("q").addEventListener("input", ()=>{
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(()=>{
+    const v = clean($("q").value);
+    $("qClear").hidden = !$("q").value;
+    if(v.length < 2){ if(searchQ){ searchQ = ""; route(); } return; }
+    searchQ = v; showSearch();
+  }, 140);
+});
+$("q").addEventListener("keydown", e=>{ if(e.key==="Escape") clearSearch(); });
+$("qClear").onclick = ()=>{ clearSearch(); $("q").focus(); };
+document.querySelectorAll(".top .brand, .top .top-link, .back").forEach(a=>{
+  a.addEventListener("click", ()=>{ if(searchQ){ clearSearch(true); setTimeout(route,0); } });
+});
 
 /* =========================================================
    التحميل
    ========================================================= */
-catalog = buildCatalog(FALLBACK);
-route();
+const CACHE_KEY = "pp_data_v1";
+function applyData(products, categories){
+  catalog = buildCatalog(products.map(normProduct), categories || "");
+  route(); syncCart();
+}
 renderCart();
-
-if(CONFIG.sheetCsvUrl){
-  fetch(CONFIG.sheetCsvUrl, {cache:"no-store"})
-    .then(r=>{ if(!r.ok) throw 0; return r.text(); })
-    .then(t=>{
-      const list = rowsToProducts(parseCSV(t));
-      if(list.length){
-        catalog = buildCatalog(list);
-        route(); syncCart();
-      }
+if(!CONFIG.apiUrl){
+  applyData(FALLBACK, "");
+}else{
+  let cached = null;
+  try{ cached = JSON.parse(localStorage.getItem(CACHE_KEY)||"null"); }catch(e){}
+  if(cached && Array.isArray(cached.products)) applyData(cached.products, cached.categories);
+  fetch(CONFIG.apiUrl + (CONFIG.apiUrl.includes("?") ? "&" : "?") + "t=" + Date.now())
+    .then(r=>r.json())
+    .then(d=>{
+      if(!d || !d.ok || !Array.isArray(d.products)) throw 0;
+      try{ localStorage.setItem(CACHE_KEY, JSON.stringify({products:d.products, categories:d.categories||""})); }catch(e){}
+      applyData(d.products, d.categories);
     })
-    .catch(()=>{ /* نُبقي القائمة الاحتياطية */ });
+    .catch(()=>{ if(!cached) applyData(FALLBACK, ""); });
 }
 </script>
 </body>
