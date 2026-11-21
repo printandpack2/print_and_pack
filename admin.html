@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>لوحة الإدارة | Print and Pack</title>
+<link rel="icon" href="images/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --ink:#0F1B4C;--ink-soft:#4A5378;--paper:#F7F7FB;--card:#fff;--line:#E4E5F0;
+  --violet:#6B3FD4;--violet-soft:#EEE8FB;--sun:#FFC928;--wa:#1FA855;--danger:#C23B4E;--radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Cairo",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.wrap{width:min(860px,100% - 32px);margin-inline:auto}
+
+/* ---- header ---- */
+.bar{background:var(--ink);color:#fff}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.bar b{font-weight:900;font-size:1.05rem}
+.bar .out{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:5px 16px;font-weight:700;cursor:pointer;font-size:.9rem}
+.bar .out:hover{border-color:#fff}
+
+/* ---- login ---- */
+.login{max-width:380px;margin:90px auto;background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 28px;text-align:center}
+.login img{height:64px;border-radius:12px;margin-bottom:12px}
+.login h1{font-size:1.35rem;font-weight:900;margin-bottom:18px}
+
+/* ---- form controls (لون النص مضبوط صراحةً) ---- */
+label{display:block;font-weight:700;font-size:.93rem;margin-bottom:6px}
+input[type=text],input[type=password],input[type=number],select,textarea{
+  width:100%;font:inherit;font-size:16px;color:var(--ink);-webkit-text-fill-color:var(--ink);
+  background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;
+  caret-color:var(--violet);-webkit-appearance:none;appearance:none;
+}
+select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F1B4C' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:left 12px center;background-size:18px;padding-inline-end:14px;padding-left:38px;
+}
+textarea{resize:vertical;min-height:96px;line-height:1.8}
+input::placeholder,textarea::placeholder{color:#7E85A6;opacity:1;-webkit-text-fill-color:#7E85A6}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-soft)}
+.field{margin-bottom:18px}
+.hint{font-size:.84rem;color:var(--ink-soft);margin-top:5px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.price-row{display:flex;align-items:center;gap:10px}
+.price-row span{font-weight:700;white-space:nowrap;color:var(--ink-soft)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+  font-weight:700;font-size:1rem;padding:12px 26px;border-radius:999px;background:var(--ink);color:#fff;
+  transition:background .2s,transform .15s;
+}
+.btn:hover{background:var(--violet)}
+.btn:active{transform:scale(.97)}
+.btn[disabled]{opacity:.55;cursor:wait}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--ink);background:#fff}
+.btn.sm{padding:6px 16px;font-size:.88rem}
+.btn.danger{background:#fff;color:var(--danger);border:1.5px solid #f0c9d0}
+.btn.danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.btn.block{width:100%}
+
+/* ---- tabs ---- */
+.tabs{display:flex;gap:8px;margin:22px 0 18px;overflow-x:auto}
+.tab{
+  border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;
+  font-weight:700;font-size:.95rem;padding:8px 20px;border-radius:999px;white-space:nowrap;
+}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:40px}
+.panel h2{font-size:1.2rem;font-weight:900;margin-bottom:18px}
+
+/* ---- images ---- */
+.drop{
+  display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
+  border:2px dashed #cfc7ee;background:var(--violet-soft);border-radius:14px;padding:22px 14px;cursor:pointer;
+}
+.drop:hover{border-color:var(--violet)}
+.drop b{font-weight:700}
+.drop small{color:var(--ink-soft)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;margin-top:14px}
+.th{position:relative;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:var(--violet-soft)}
+.th img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.th .tag{position:absolute;top:6px;inset-inline-start:6px;background:var(--sun);color:var(--ink);font-size:.72rem;font-weight:900;padding:1px 9px;border-radius:999px}
+.th .ctl{display:flex;border-top:1px solid var(--line);background:#fff}
+.th .ctl button{flex:1;border:0;background:#fff;cursor:pointer;padding:5px 2px;font-size:.78rem;font-weight:700;color:var(--ink)}
+.th .ctl button+button{border-inline-start:1px solid var(--line)}
+.th .ctl button.rm{color:var(--danger)}
+.th .ctl button:hover{background:var(--violet-soft)}
+
+/* ---- list ---- */
+.item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item img,.item .ph{width:64px;height:64px;border-radius:12px;object-fit:cover;background:var(--violet-soft);flex:none}
+.item .info{flex:1;min-width:0}
+.item .info b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .info small{color:var(--ink-soft)}
+.item .btns{display:flex;gap:8px;flex:none}
+.empty{text-align:center;color:var(--ink-soft);padding:30px 0}
+
+/* ---- categories preview ---- */
+.prev{display:grid;gap:8px;margin-top:14px}
+.prev div{background:var(--paper);border-radius:12px;padding:8px 14px}
+.prev b{font-weight:900}
+.prev span{display:inline-block;background:var(--violet-soft);border-radius:999px;padding:0 12px;font-size:.85rem;margin:4px 0 0 6px}
+pre.ex{background:var(--paper);border-radius:12px;padding:12px 16px;font:inherit;font-size:.92rem;white-space:pre-wrap;margin-top:6px}
+
+/* ---- toast ---- */
+.toast{
+  position:fixed;inset-inline:16px;bottom:20px;margin-inline:auto;width:max-content;max-width:calc(100% - 32px);
+  background:var(--ink);color:#fff;font-weight:700;padding:12px 22px;border-radius:999px;z-index:50;
+  opacity:0;transform:translateY(20px);transition:opacity .25s,transform .25s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:none}
+.toast.err{background:var(--danger)}
+.err-msg{color:var(--danger);font-weight:700;font-size:.9rem;margin-top:10px;min-height:1.4em}
+
+@media (max-width:560px){
+  .row2{grid-template-columns:1fr}
+  .item .btns{flex-direction:column}
+  .panel{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ تسجيل الدخول ============ -->
+<section id="loginView">
+  <div class="login">
+    <img src="images/logo-mark.png" alt="" onerror="this.remove()">
+    <h1>لوحة إدارة Print and Pack</h1>
+    <form id="loginForm">
+      <div class="field">
+        <label for="pw" class="sr" style="text-align:start">كلمة المرور</label>
+        <input type="password" id="pw" autocomplete="current-password" placeholder="كلمة المرور" required>
+      </div>
+      <button class="btn block" id="loginBtn" type="submit">دخول</button>
+      <p class="err-msg" id="loginErr" role="alert"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ اللوحة ============ -->
+<section id="appView" hidden>
+  <div class="bar"><div class="wrap">
+    <b>لوحة الإدارة</b>
+    <button class="out" id="logout" type="button">تسجيل الخروج</button>
+  </div></div>
+
+  <div class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="add" aria-selected="true" id="tabAdd">إضافة منتج</button>
+      <button class="tab" role="tab" data-tab="list" aria-selected="false">المنتجات (<span id="count">0</span>)</button>
+      <button class="tab" role="tab" data-tab="cats" aria-selected="false">التصنيفات</button>
+    </div>
+
+    <!-- إضافة / تعديل -->
+    <div class="panel" id="p-add">
+      <h2 id="formTitle">إضافة منتج جديد</h2>
+      <form id="prodForm">
+        <div class="field">
+          <label>صور المنتج <small style="font-weight:400">(حتى 8 صور، الأولى هي الرئيسية)</small></label>
+          <label class="drop" for="files">
+            <b>اضغط لاختيار الصور</b>
+            <small>تُصغَّر تلقائيًا قبل الرفع لتكون سريعة</small>
+          </label>
+          <input type="file" id="files" accept="image/*" multiple hidden>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <div class="field">
+          <label for="name">اسم المنتج</label>
+          <input type="text" id="name" maxlength="150" required>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="cat">التصنيف</label>
+            <select id="cat" required></select>
+          </div>
+          <div class="field" id="subField">
+            <label for="sub">التصنيف الفرعي</label>
+            <select id="sub"></select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="desc">الوصف</label>
+          <textarea id="desc" maxlength="1500"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="price">السعر</label>
+          <div class="price-row">
+            <input type="number" id="price" inputmode="decimal" min="0" step="any" placeholder="250" style="max-width:200px">
+            <span id="cur"></span>
+          </div>
+          <p class="hint">اكتب الرقم فقط. تُضاف العملة تلقائيًا.</p>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="saveBtn" type="submit">نشر المنتج</button>
+          <button class="btn ghost" id="cancelEdit" type="button" hidden>إلغاء التعديل</button>
+        </div>
+        <p class="err-msg" id="formErr" role="alert"></p>
+      </form>
+    </div>
+
+    <!-- القائمة -->
+    <div class="panel" id="p-list" hidden>
+      <h2>المنتجات</h2>
+      <div class="field"><input type="text" id="filter" placeholder="ابحث في المنتجات…"></div>
+      <div id="items"></div>
+    </div>
+
+    <!-- التصنيفات -->
+    <div class="panel" id="p-cats" hidden>
+      <h2>التصنيفات</h2>
+      <div class="field">
+        <label for="catText">اكتب كل تصنيف في سطر</label>
+        <textarea id="catText" style="min-height:190px" placeholder="أكياس هدايا: كرتون| كرافت&#10;دفاتر وجداول&#10;ستيكرز: اعمال| شخصية| عشوائية"></textarea>
+        <p class="hint">تصنيف بدون فروع: اكتب اسمه فقط. وللتصنيفات الفرعية ضع نقطتين بعد الاسم، وافصل بين الفروع بالعلامة |</p>
+        <pre class="ex">ستيكرز
+ستيكرز: اعمال| شخصية| عشوائية</pre>
+        <p class="hint">ترتيب الأسطر هو ترتيب ظهور التصنيفات في الموقع.</p>
+      </div>
+      <div class="prev" id="catPrev"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button class="btn" id="saveCats" type="button">حفظ التصنيفات</button>
+        <button class="btn ghost" id="importCats" type="button">استيراد التصنيفات من المنتجات الحالية</button>
+      </div>
+      <p class="err-msg" id="catErr" role="alert"></p>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =========================================================
+   الإعدادات
+   ========================================================= */
+const CONFIG = {
+  apiUrl: "",              // رابط Google Apps Script المنتهي بـ /exec
+  currency: "ل.س.ج",       // العملة التي تُضاف بعد الرقم
+  maxSide: 1000,           // أطول ضلع للصورة بعد التصغير (بكسل)
+  quality: 0.82,           // جودة JPEG
+  maxImages: 8
+};
+
+/* =========================================================
+   أدوات
+   ========================================================= */
+const $ = id => document.getElementById(id);
+function el(tag, cls, text){ const n=document.createElement(tag); if(cls) n.className=cls; if(text!==undefined) n.textContent=text; return n; }
+const clean = s => String(s||"").replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g,"").replace(/\s+/g," ").trim();
+const normKey = s => String(s||"").normalize("NFKC").replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g,"")
+  .replace(/[\u064B-\u065F\u0670\u0640]/g,"").replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+  .replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/ء/g,"").replace(/\s+/g," ").trim().toLowerCase();
+
+let toastTimer;
+function toast(msg, isErr){
+  const t = $("toast"); t.textContent = msg; t.classList.toggle("err", !!isErr);
+  t.classList.add("show"); clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+function thumbUrl(u, w){
+  if(/^https?:\/\//i.test(u)) return /googleusercontent\.com\/d\//.test(u) ? u.replace(/=w\d+.*$/,"")+"=w"+w : u;
+  return "images/" + encodeURI(u);
+}
+
+/* "ستيكرز: اعمال| شخصية" → [{name, subs}] */
+function parseCategories(text){
+  const out=[];
+  String(text||"").split(/\r?\n/).forEach(line=>{
+    line = clean(line); if(!line) return;
+    const m = line.match(/^([^:：]+)[:：](.*)$/);
+    const name = clean(m ? m[1] : line);
+    const subs = m ? m[2].split("|").map(clean).filter(Boolean) : [];
+    if(name) out.push({name, subs});
+  });
+  return out;
+}
+
+/* =========================================================
+   الاتصال بالخادم
+   ========================================================= */
+let PW = sessionStorage.getItem("pp_admin_pw") || "";
+async function api(action, data){
+  if(!CONFIG.apiUrl) throw new Error("لم يُضبط رابط الخادم (apiUrl) في هذا الملف.");
+  let res;
+  try{
+    res = await fetch(CONFIG.apiUrl, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},   // بدون preflight
+      body: JSON.stringify({action, password:PW, ...(data||{})})
+    });
+  }catch(e){ throw new Error("تعذّر الاتصال بالخادم. تحقق من الإنترنت ومن رابط الخادم."); }
+  let j;
+  try{ j = await res.json(); }catch(e){ throw new Error("ردّ غير متوقع من الخادم. تأكد من إعدادات النشر (Anyone)."); }
+  if(!j.ok) throw new Error(j.error || "حدث خطأ.");
+  return j;
+}
+
+/* =========================================================
+   الحالة
+   ========================================================= */
+let products = [];
+let catText = "";
+let editing = null;          // المنتج الجاري تعديله
+let imgs = [];               // [{url} | {blob, preview}]
+
+function setData(j){
+  products = j.products || [];
+  catText = j.categories || "";
+  $("count").textContent = products.length;
+}
+
+/* =========================================================
+   الدخول
+   ========================================================= */
+function showApp(){
+  $("loginView").hidden = true; $("appView").hidden = false;
+  $("cur").textContent = CONFIG.currency;
+  $("catText").value = catText;
+  renderCatSelects(); renderPreview(); renderList(); renderThumbs();
+}
+async function tryLogin(pw, silent){
+  PW = pw;
+  $("loginBtn").disabled = true; $("loginErr").textContent = "";
+  try{
+    const j = await api("login");
+    sessionStorage.setItem("pp_admin_pw", pw);
+    setData(j); showApp();
+  }catch(e){
+    PW = ""; sessionStorage.removeItem("pp_admin_pw");
+    if(!silent) $("loginErr").textContent = e.message;
+  }finally{ $("loginBtn").disabled = false; }
+}
+$("loginForm").addEventListener("submit", e=>{ e.preventDefault(); tryLogin($("pw").value); });
+$("logout").onclick = ()=>{ sessionStorage.removeItem("pp_admin_pw"); PW=""; location.reload(); };
+if(PW) tryLogin(PW, true);
+
+/* =========================================================
+   التبويبات
+   ========================================================= */
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click", ()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected", String(x===t)));
+  ["add","list","cats"].forEach(k=>$("p-"+k).hidden = k!==t.dataset.tab);
+}));
+function openTab(k){ document.querySelector('.tab[data-tab="'+k+'"]').click(); }
+
+/* =========================================================
+   التصنيفات (اختيار في النموذج)
+   ========================================================= */
+function renderCatSelects(selCat, selSub){
+  const cfg = parseCategories(catText);
+  const cat = $("cat"); cat.replaceChildren();
+  const opt0 = el("option",null,"اختر التصنيف"); opt0.value=""; cat.appendChild(opt0);
+  cfg.forEach(c=>{ const o=el("option",null,c.name); o.value=c.name; cat.appendChild(o); });
+  if(selCat && !cfg.some(c=>normKey(c.name)===normKey(selCat))){
+    const o=el("option",null,selCat+" (غير مُعرَّف في الإعدادات)"); o.value=selCat; cat.appendChild(o);
+  }
+  if(selCat){
+    const hit = [...cat.options].find(o=>normKey(o.value)===normKey(selCat));
+    cat.value = hit ? hit.value : "";
+  }
+  renderSubSelect(selSub);
+}
+function renderSubSelect(selSub){
+  const cfg = parseCategories(catText);
+  const c = cfg.find(x=>normKey(x.name)===normKey($("cat").value));
+  const subs = c ? c.subs.slice() : [];
+  if(selSub && !subs.some(s=>normKey(s)===normKey(selSub))) subs.push(selSub);
+  const sub = $("sub"); sub.replaceChildren();
+  const o0 = el("option",null,"بدون تصنيف فرعي"); o0.value=""; sub.appendChild(o0);
+  subs.forEach(s=>{ const o=el("option",null,s); o.value=s; sub.appendChild(o); });
+  if(selSub){ const hit=[...sub.options].find(o=>normKey(o.value)===normKey(selSub)); sub.value = hit?hit.value:""; }
+  $("subField").hidden = subs.length===0;
+}
+$("cat").addEventListener("change", ()=>renderSubSelect());
+
+/* =========================================================
+   الصور: اختيار + تصغير
+   ========================================================= */
+function compress(file){
+  return new Promise((resolve,reject)=>{
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, CONFIG.maxSide/Math.max(img.naturalWidth, img.naturalHeight));
+      const w = Math.max(1,Math.round(img.naturalWidth*k)), h = Math.max(1,Math.round(img.naturalHeight*k));
+      const cv = document.createElement("canvas"); cv.width=w; cv.height=h;
+      const ctx = cv.getContext("2d");
+      ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h);
+      ctx.drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(url);
+      cv.toBlob(b=> b ? resolve(b) : reject(new Error("تعذّر تصغير الصورة")), "image/jpeg", CONFIG.quality);
+    };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error("تعذّر قراءة الصورة: "+file.name)); };
+    img.src = url;
+  });
+}
+const blobToB64 = b => new Promise((res,rej)=>{
+  const r = new FileReader();
+  r.onload = ()=>res(String(r.result).split(",")[1]);
+  r.onerror = ()=>rej(new Error("تعذّر قراءة الصورة"));
+  r.readAsDataURL(b);
+});
+
+$("files").addEventListener("change", async e=>{
+  const files = [...e.target.files]; e.target.value = "";
+  $("formErr").textContent = "";
+  for(const f of files){
+    if(imgs.length >= CONFIG.maxImages){ toast("الحد الأقصى "+CONFIG.maxImages+" صور", true); break; }
+    try{
+      const blob = await compress(f);
+      imgs.push({blob, preview: URL.createObjectURL(blob)});
+      renderThumbs();
+    }catch(err){ toast(err.message, true); }
+  }
+});
+
+function renderThumbs(){
+  const box = $("thumbs"); box.replaceChildren();
+  imgs.forEach((it,i)=>{
+    const th = el("div","th");
+    const im = new Image(); im.alt=""; im.src = it.preview || thumbUrl(it.url, 300);
+    th.appendChild(im);
+    if(i===0) th.appendChild(el("span","tag","رئيسية"));
+    const ctl = el("div","ctl");
+    if(i>0){ const b=el("button",null,"رئيسية"); b.type="button"; b.onclick=()=>{ imgs.unshift(imgs.splice(i,1)[0]); renderThumbs(); }; ctl.appendChild(b); }
+    const rm = el("button","rm","حذف"); rm.type="button";
+    rm.onclick=()=>{ const x=imgs.splice(i,1)[0]; if(x.preview) URL.revokeObjectURL(x.preview); renderThumbs(); };
+    ctl.appendChild(rm);
+    th.appendChild(ctl); box.appendChild(th);
+  });
+}
+
+/* =========================================================
+   نشر / تعديل منتج
+   ========================================================= */
+function resetForm(){
+  editing = null; imgs.forEach(i=>i.preview&&URL.revokeObjectURL(i.preview)); imgs = [];
+  $("prodForm").reset(); $("formTitle").textContent = "إضافة منتج جديد";
+  $("saveBtn").textContent = "نشر المنتج"; $("cancelEdit").hidden = true; $("formErr").textContent = "";
+  renderCatSelects(); renderThumbs();
+}
+$("cancelEdit").onclick = resetForm;
+
+function priceNumber(str){
+  const m = String(str||"").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).match(/\d[\d.,]*/);
+  return m ? m[0].replace(/,(?=\d{3}\b)/g,"") : "";
+}
+
+$("prodForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const err = $("formErr"); err.textContent = "";
+  const name = clean($("name").value);
+  if(!name){ err.textContent = "اسم المنتج مطلوب."; return; }
+  if(!$("cat").value){ err.textContent = "اختر التصنيف. وإن لم يكن موجودًا فأضفه من تبويب التصنيفات."; return; }
+  if(!imgs.length && !confirm("لم تضف أي صورة. هل تريد المتابعة؟")) return;
+
+  const btn = $("saveBtn"); btn.disabled = true;
+  try{
+    const urls = [];
+    let n = 0; const total = imgs.filter(i=>i.blob).length;
+    for(const it of imgs){
+      if(it.url){ urls.push(it.url); continue; }
+      n++; btn.textContent = `رفع الصورة ${n} من ${total}…`;
+      const data = await blobToB64(it.blob);
+      const r = await api("uploadImage", {mime:"image/jpeg", data});
+      it.url = r.url; urls.push(r.url);
+    }
+    btn.textContent = "جارٍ الحفظ…";
+    const pv = String($("price").value).trim();
+    const j = await api("saveProduct", {
+      id: editing ? editing.id : "",
+      name, category: $("cat").value, subcategory: $("sub").value,
+      description: $("desc").value, images: urls,
+      price: pv ? pv + " " + CONFIG.currency : ""
+    });
+    const wasEdit = !!editing;
+    setData(j); resetForm(); renderList();
+    toast(wasEdit ? "تم حفظ التعديلات" : "تم نشر المنتج");
+  }catch(ex){
+    err.textContent = ex.message;
+  }finally{
+    btn.disabled = false; btn.textContent = editing ? "حفظ التعديلات" : "نشر المنتج";
+  }
+});
+
+/* =========================================================
+   قائمة المنتجات
+   ========================================================= */
+function renderList(){
+  const box = $("items"); box.replaceChildren();
+  const q = normKey($("filter").value);
+  const list = products.filter(p=>!q || normKey(p.name+" "+p.category+" "+p.subcategory).includes(q));
+  if(!list.length){ box.appendChild(el("p","empty", products.length ? "لا نتائج." : "لا توجد منتجات بعد.")); return; }
+  list.forEach(p=>{
+    const row = el("div","item");
+    if(p.images && p.images.length){ const im=new Image(); im.alt=""; im.loading="lazy"; im.src=thumbUrl(p.images[0],160); row.appendChild(im); }
+    else row.appendChild(el("div","ph"));
+    const info = el("div","info");
+    info.append(el("b",null,p.name), el("small",null,[p.category,p.subcategory].filter(Boolean).join(" ‹ ")+(p.price?" · "+p.price:"")+(p.images&&p.images.length>1?" · "+p.images.length+" صور":"")));
+    const btns = el("div","btns");
+    const ed = el("button","btn ghost sm","تعديل"); ed.type="button"; ed.onclick=()=>startEdit(p);
+    const del = el("button","btn danger sm","حذف"); del.type="button";
+    del.onclick = async ()=>{
+      if(!confirm("حذف «"+p.name+"» نهائيًا مع صوره؟")) return;
+      del.disabled = true;
+      try{ const j = await api("deleteProduct",{id:p.id}); setData(j); renderList(); toast("تم الحذف"); }
+      catch(ex){ toast(ex.message,true); del.disabled=false; }
+    };
+    btns.append(ed,del); row.append(info,btns); box.appendChild(row);
+  });
+}
+$("filter").addEventListener("input", renderList);
+
+function startEdit(p){
+  resetForm(); editing = p;
+  $("formTitle").textContent = "تعديل: " + p.name;
+  $("saveBtn").textContent = "حفظ التعديلات"; $("cancelEdit").hidden = false;
+  $("name").value = p.name; $("desc").value = p.description;
+  $("price").value = priceNumber(p.price);
+  renderCatSelects(p.category, p.subcategory);
+  imgs = (p.images||[]).map(u=>({url:u}));
+  renderThumbs(); openTab("add"); window.scrollTo(0,0);
+}
+
+/* =========================================================
+   التصنيفات: معاينة + حفظ
+   ========================================================= */
+function renderPreview(){
+  const box = $("catPrev"); box.replaceChildren();
+  parseCategories($("catText").value).forEach(c=>{
+    const d = el("div"); d.appendChild(el("b",null,c.name));
+    c.subs.forEach(s=>d.appendChild(el("span",null,s)));
+    box.appendChild(d);
+  });
+}
+$("catText").addEventListener("input", renderPreview);
+$("saveCats").onclick = async ()=>{
+  const b = $("saveCats"); b.disabled = true; $("catErr").textContent = "";
+  try{
+    await api("saveCategories",{categories:$("catText").value});
+    catText = $("catText").value; renderCatSelects(); toast("تم حفظ التصنيفات");
+  }catch(ex){ $("catErr").textContent = ex.message; }
+  finally{ b.disabled = false; }
+};
+$("importCats").onclick = ()=>{
+  const cats = new Map();
+  products.forEach(p=>{
+    const c = clean(p.category); if(!c) return;
+    const k = normKey(c); if(!cats.has(k)) cats.set(k,{name:c,subs:new Map()});
+    const s = clean(p.subcategory);
+    if(s){ const sk=normKey(s); if(!cats.get(k).subs.has(sk)) cats.get(k).subs.set(sk,s); }
+  });
+  const existing = parseCategories($("catText").value).map(c=>normKey(c.name));
+  const lines = [...cats.entries()].filter(([k])=>!existing.includes(k))
+    .map(([,c])=> c.name + (c.subs.size ? ": " + [...c.subs.values()].join("| ") : ""));
+  if(!lines.length){ toast("لا توجد تصنيفات جديدة لاستيرادها"); return; }
+  const cur = $("catText").value.replace(/\s+$/,"");
+  $("catText").value = (cur ? cur+"\n" : "") + lines.join("\n");
+  renderPreview(); toast("أُضيفت التصنيفات. اضغط حفظ.");
+};
+</script>
+</body>
+</html>
